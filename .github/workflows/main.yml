@@ -30,14 +30,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         run: |
-          mvn --batch-mode --update-snapshots clean package -Dquarkus.container-image.build=true -Dquarkus.container-image.group=ghcr.io/${{ github.repository_owner }} -Dquarkus.container-image.name=${{ env.DEPLOYMENT_NAME }} -Dquarkus.container-image.tag=latest -Dquarkus.kubernetes.service-type=NodePort -Dquarkus.kubernetes.node-port=${{ env.DEPLOYMENT_PORT }}
+          mvn --batch-mode --update-snapshots clean package -Dquarkus.container-image.build=true -Dquarkus.container-image.group=ghcr.io/fkock1997 -Dquarkus.container-image.name=${{ env.DEPLOYMENT_NAME }} -Dquarkus.container-image.tag=latest -Dquarkus.kubernetes.service-type=NodePort -Dquarkus.kubernetes.node-port=${{ env.DEPLOYMENT_PORT }}
 
       - name: Log in to registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: Push the Docker image to GHCR
         run: |
-          docker push ghcr.io/${{ github.repository_owner }}/${{ env.DEPLOYMENT_NAME }}
+          docker push ghcr.io//fkock1997/${{ env.DEPLOYMENT_NAME }}
 
       - name: Deploy
         run: |-
