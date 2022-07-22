@@ -37,7 +37,7 @@ jobs:
 
       - name: Push the Docker image to GHCR
         run: |
-          docker push ghcr.io//fkock1997/${{ env.DEPLOYMENT_NAME }}
+          docker push ghcr.io/fkock1997/${{ env.DEPLOYMENT_NAME }}
 
       - name: Deploy
         run: |-
