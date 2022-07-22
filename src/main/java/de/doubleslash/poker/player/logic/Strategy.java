@@ -16,10 +16,6 @@ public class Strategy {
             return checkForNSameCards(table, 4);
         }
 
-        if (table.getCommunityCards().size() >= 3) {
-            return checkForNSameCards(table, 4);
-        }
-
         if (table.getPlayers().get(table.getActivePlayer()).getCards().get(0)
                 .equals(table.getPlayers().get(table.getActivePlayer()).getCards().get(1))) {
             if (isHigherThanJack(table)) {
@@ -38,7 +34,6 @@ public class Strategy {
     }
 
     private int checkForNSameCards(final Table table, final int n) {
-        final boolean result = false;
 
         final Map<Card, Integer> cards = new HashMap<>();
         final Map<Suit, Integer> suits = new HashMap<>();
@@ -52,13 +47,13 @@ public class Strategy {
             suits.merge(communityCard.getSuit(), 1, Integer::sum);
         }
 
-        for(var entry : suits.entrySet()) {
+        for(final var entry : suits.entrySet()) {
             if (entry.getValue() == 5) {
                 return table.getMinimumBet()*100;
             }
         }
 
-        for (var entry : cards.entrySet()) {
+        for (final var entry : cards.entrySet()) {
             if (entry.getValue() == n) {
                 return table.getMinimumBet() * 4;
             }
