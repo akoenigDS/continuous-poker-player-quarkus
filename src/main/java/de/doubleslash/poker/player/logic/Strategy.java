@@ -12,8 +12,8 @@ public class Strategy {
 
     public int decide(final Table table) {
 
-        if (table.getCommunityCards().size() >= 3) {
-            return checkForNSameCards(table, 4);
+        if (trippleOrMoreCheck(table)) {
+            return eierLegendeWollMilchSau(table, 4);
         }
 
         if (table.getPlayers().get(table.getActivePlayer()).getCards().get(0)
@@ -26,6 +26,10 @@ public class Strategy {
         return table.getMinimumBet();
     }
 
+    private boolean trippleOrMoreCheck(final Table table) {
+        return table.getCommunityCards().size() >= 3;
+    }
+
     private boolean isHigherThanJack(final Table table) {
         return table.getPlayers().get(table.getActivePlayer()).getCards().get(0).getRank().equals(Rank.QUEEN)
                 || table.getPlayers().get(table.getActivePlayer()).getCards().get(0).getRank().equals(Rank.JACK)
@@ -33,7 +37,7 @@ public class Strategy {
                 || table.getPlayers().get(table.getActivePlayer()).getCards().get(0).getRank().equals(Rank.ACE);
     }
 
-    private int checkForNSameCards(final Table table, final int n) {
+    private int eierLegendeWollMilchSau(final Table table, final int n) {
 
         final Map<Card, Integer> cards = new HashMap<>();
         final Map<Suit, Integer> suits = new HashMap<>();
@@ -47,9 +51,24 @@ public class Strategy {
             suits.merge(communityCard.getSuit(), 1, Integer::sum);
         }
 
+        for (final var entry : cards.entrySet())
+        {
+            if(entry.getValue() == 3)
+            {
+                for (final var entry2 : cards.entrySet())
+                {
+                    if(entry2.getKey() != entry.getKey() && entry2.getValue() == 2)
+                    {
+                        return table.getPlayers().get(table.getActivePlayer()).getStack();
+                    }
+
+                }
+            }
+        }
+
         for(final var entry : suits.entrySet()) {
             if (entry.getValue() == 5) {
-                return table.getMinimumBet()*100;
+                return table.getMinimumBet()*3;
             }
         }
 
