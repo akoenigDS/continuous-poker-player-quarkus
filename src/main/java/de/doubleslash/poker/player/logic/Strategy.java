@@ -19,7 +19,8 @@ public class Strategy {
 
         if (table.getCommunityCards().size() >= 3) {
             if (checkForFourple(table)) {
-                return table.getPlayers().get(table.getActivePlayer()).getStack();            }
+                return table.getPlayers().get(table.getActivePlayer()).getStack();
+            }
         }
 
         if (table.getPlayers().get(table.getActivePlayer()).getCards().get(0)
