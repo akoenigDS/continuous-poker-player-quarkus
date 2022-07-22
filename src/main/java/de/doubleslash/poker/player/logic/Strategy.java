@@ -17,6 +17,11 @@ public class Strategy {
             }
         }
 
+        if (table.getCommunityCards().size() >= 3) {
+            if (checkForFourple(table)) {
+                return table.getPlayers().get(table.getActivePlayer()).getStack();            }
+        }
+
         if (table.getPlayers().get(table.getActivePlayer()).getCards().get(0)
                 .equals(table.getPlayers().get(table.getActivePlayer()).getCards().get(1))) {
             if (isHigherThanJack(table)) {
@@ -48,6 +53,27 @@ public class Strategy {
 
         for (var entry : cards.entrySet()) {
             if (entry.getValue() == 3) {
+                return true;
+            }
+        }
+
+        return result;
+    }
+
+    private boolean checkForFourple(final Table table) {
+        boolean result = false;
+
+        final Map<Card, Integer> cards = new HashMap<>();
+
+        for (final Card ownCard : table.getPlayers().get(table.getActivePlayer()).getCards()) {
+            cards.merge(ownCard, 1, Integer::sum);
+        }
+        for (final Card communityCard : table.getCommunityCards()) {
+            cards.merge(communityCard, 1, Integer::sum);
+        }
+
+        for (var entry : cards.entrySet()) {
+            if (entry.getValue() == 4) {
                 return true;
             }
         }
