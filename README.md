@@ -11,6 +11,7 @@ Your task is to implement the best poker player logic! :)
    * TEAMNAME (your team name - only letters, digits and dashes)
 4. Run the main workflow in GitHub - it will be deployed automatically
 5. Notify the facilitator once you are done :)
+6. Win
 
 
 ## How it works
