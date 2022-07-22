@@ -16,11 +16,15 @@ public class Strategy {
    public int decide(final Table table) {
       System.out.println(table);
 
-      if (table.getPlayers().get(table.getActivePlayer()).getCards().get(0).equals(table.getPlayers().get(table.getActivePlayer()).getCards().get(1)))
+      if (table.getCommunityCards().size() >= 3)
       {
          if(checkForTriple(table)) {
             return table.getMinimumBet() * 4;
          }
+      }
+
+      if (table.getPlayers().get(table.getActivePlayer()).getCards().get(0).equals(table.getPlayers().get(table.getActivePlayer()).getCards().get(1)))
+      {
          if (isHigherThanJack(table))
          {
             return table.getMinimumBet() * 3;
