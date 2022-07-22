@@ -6,7 +6,7 @@ public class Strategy {
 
    public int decide(final Table table) {
       System.out.println(table);
-      return 0;
+      return table.getMinimumBet();
    }
 
 }
