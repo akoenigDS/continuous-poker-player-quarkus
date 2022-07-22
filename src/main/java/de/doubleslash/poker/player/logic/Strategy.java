@@ -5,6 +5,7 @@ import java.util.Map;
 
 import de.doubleslash.poker.player.data.Card;
 import de.doubleslash.poker.player.data.Rank;
+import de.doubleslash.poker.player.data.Suit;
 import de.doubleslash.poker.player.data.Table;
 
 public class Strategy {
@@ -12,15 +13,11 @@ public class Strategy {
     public int decide(final Table table) {
 
         if (table.getCommunityCards().size() >= 3) {
-            if (checkForTriple(table)) {
-                return table.getMinimumBet() * 4;
-            }
+            return checkForNSameCards(table, 4);
         }
 
         if (table.getCommunityCards().size() >= 3) {
-            if (checkForFourple(table)) {
-                return table.getPlayers().get(table.getActivePlayer()).getStack();
-            }
+            return checkForNSameCards(table, 4);
         }
 
         if (table.getPlayers().get(table.getActivePlayer()).getCards().get(0)
@@ -40,46 +37,34 @@ public class Strategy {
                 || table.getPlayers().get(table.getActivePlayer()).getCards().get(0).getRank().equals(Rank.ACE);
     }
 
-    private boolean checkForTriple(final Table table) {
-        boolean result = false;
+    private int checkForNSameCards(final Table table, final int n) {
+        final boolean result = false;
 
         final Map<Card, Integer> cards = new HashMap<>();
+        final Map<Suit, Integer> suits = new HashMap<>();
 
         for (final Card ownCard : table.getPlayers().get(table.getActivePlayer()).getCards()) {
             cards.merge(ownCard, 1, Integer::sum);
+            suits.merge(ownCard.getSuit(), 1, Integer::sum);
         }
         for (final Card communityCard : table.getCommunityCards()) {
             cards.merge(communityCard, 1, Integer::sum);
+            suits.merge(communityCard.getSuit(), 1, Integer::sum);
         }
 
-        for (var entry : cards.entrySet()) {
-            if (entry.getValue() == 3) {
-                return true;
+        for(var entry : suits.entrySet()) {
+            if (entry.getValue() == 5) {
+                return table.getMinimumBet()*100;
             }
         }
 
-        return result;
-    }
-
-    private boolean checkForFourple(final Table table) {
-        boolean result = false;
-
-        final Map<Card, Integer> cards = new HashMap<>();
-
-        for (final Card ownCard : table.getPlayers().get(table.getActivePlayer()).getCards()) {
-            cards.merge(ownCard, 1, Integer::sum);
-        }
-        for (final Card communityCard : table.getCommunityCards()) {
-            cards.merge(communityCard, 1, Integer::sum);
-        }
-
         for (var entry : cards.entrySet()) {
-            if (entry.getValue() == 4) {
-                return true;
+            if (entry.getValue() == n) {
+                return table.getMinimumBet() * 4;
             }
         }
 
-        return result;
+        return table.getMinimumBet();
     }
 
 }
